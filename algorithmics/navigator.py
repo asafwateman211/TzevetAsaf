@@ -1,6 +1,8 @@
 from typing import List, Tuple
 
 import networkx as nx
+import shapely
+from shapely import geometry
 
 from algorithmics.enemy import radar
 from algorithmics.enemy.asteroids_zone import AsteroidsZone
@@ -19,6 +21,7 @@ def coords_to_point(c: Coordinate):
     p = Point(c.x, c.y)
     return p
 
+
 def enemy_to_points(enemies: List[Enemy]):
     polys=[]
     for e in enemies:
@@ -28,12 +31,29 @@ def enemy_to_points(enemies: List[Enemy]):
     return polys
 
 
+def to_list(t): #t is polygon
+    xx, yy = t.exterior.coords.xy
+    l = []
+    for i in range(0, len(xx)):
+        l.append(Point(xx[i], yy[i]))
+    return l
+
 
 def get_graph(source: Point, targets: List[Point], enemies: List[Enemy]):
     g = vg.VisGraph()
     polys = [e.get_vertices() for e in enemies]
+    temp=[]
+    #polys2 = []
+    for pol in polys:
+        pol = geometry.Polygon([[p.x, p.y] for p in pol])
+        for pol2 in polys:
+            pol2 = geometry.Polygon([[p.x, p.y] for p in pol2])
+            temp.append(pol.intersection(pol2))
+    for t in temp:
+        polys += [to_list(t)]
     g.build(polys)
     return g
+
 
 def calculate_path(source: Coordinate, targets: List[Coordinate], enemies: List[Enemy], allowed_detection: float = 0) \
         -> Tuple[List[Point], nx.Graph]:
@@ -48,16 +68,16 @@ def calculate_path(source: Coordinate, targets: List[Coordinate], enemies: List[
     :param allowed_detection: maximum allowed distance of radar detection
     :return: list of calculated path waypoints and the graph constructed
     """
+
+
+
     targets2 =[]
     for i in range(0,len(targets)):
         targets2.append(coords_to_point(targets[i]))
     source = coords_to_point(source)
-    print(source)
-    print(targets2)
-    g = get_graph(coords_to_point(source), targets2, enemies)
-
-    print(g.shortest_path(coords_to_point(source), targets2[0]))
-    return [source] + targets, nx.DiGraph()
+    g = get_graph(source, targets2, enemies)
+    print(g.shortest_path(source, targets2[0]))
+    return g.shortest_path(source, targets2[0])
 
 
 polys = [[Coordinate(0.0, 1.0), Coordinate(3.0, 1.0), Coordinate(1.5, 4.0)],
