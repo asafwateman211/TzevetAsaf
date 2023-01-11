@@ -4,7 +4,6 @@ import networkx as nx
 import pyvisgraph
 from pyvisgraph import vis_graph as vg, graph
 
-'''
 from algorithmics.enemy.enemy import Enemy
 from algorithmics.utils.coordinate import Coordinate
 from pyvisgraph import vis_graph as vg
@@ -26,7 +25,7 @@ def calculate_path(source: Coordinate, targets: List[Coordinate], enemies: List[
     :return: list of calculated path waypoints and the graph constructed
     """
     return [source] + targets, nx.DiGraph()
-'''
+
 
 polys = [[graph.Point(0.0, 5.0), graph.Point(5.0, 5.0), graph.Point(5, 0), graph.Point(0, 0)],
          [graph.Point(4, 4), graph.Point(8, 4.0), graph.Point(4, 8.0), graph.Point(8, 8)]]
