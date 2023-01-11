@@ -12,7 +12,7 @@ from cryptography.fernet import Fernet as F
 from dash import dcc, html
 from dash.dependencies import Input, Output, State
 from dash_extensions.enrich import MultiplexerTransform, TriggerTransform, DashProxy
-
+from jinja2 import select_autoescape
 from algorithmics.assets.generate_scatter import generate_path_scatters, generate_graph_scatter, \
     generate_all_scenario_scatters, \
     generate_graph_layout
