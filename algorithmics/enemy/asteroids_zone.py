@@ -8,7 +8,7 @@ import shapely.geometry as geo
 
 
 class AsteroidsZone(Enemy):
-    def __init_(self, boundary: List[Coordinate]):
+    def __init__(self, boundary: List[Coordinate]):
         self.boundary = [Point(p.x, p.y) for p in boundary]     # List[Point]
         self.polygon = geo.Polygon(self.boundary)
 
