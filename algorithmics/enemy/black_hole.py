@@ -1,5 +1,6 @@
 from algorithmics.enemy.enemy import Enemy
 from algorithmics.utils.coordinate import Coordinate
+from pyvisgraph.graph import Point
 import shapely.geometry as geo
 import math
 
@@ -23,5 +24,5 @@ class BlackHole(Enemy):
     def get_vertices(self):
         thetas = [math.tau * i / self.n_points for i in range(0, self.n_points)]
         tmp = [self.get_coordinates(theta) for theta in thetas]
-        return [Coordinate(sp.x, sp.y) for sp in tmp]
+        return [Point(sp.x, sp.y) for sp in tmp]
 

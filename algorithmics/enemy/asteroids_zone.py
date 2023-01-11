@@ -2,13 +2,14 @@ from typing import List
 
 from algorithmics.enemy.enemy import Enemy
 from algorithmics.utils.coordinate import Coordinate
+from pyvisgraph.graph import Point
 
 import shapely.geometry as geo
 
 
 class AsteroidsZone(Enemy):
     def __init_(self, boundary: List[Coordinate]):
-        self.boundary = boundary
+        self.boundary = [Point(p.x, p.y) for p in boundary]     # List[Point]
         self.polygon = geo.Polygon(self.boundary)
 
     def get_vertices(self):
