@@ -1,33 +1,27 @@
 from algorithmics.enemy.enemy import Enemy
 from algorithmics.utils.coordinate import Coordinate
+import shapely.geometry as geo
+import math
 
 
 class BlackHole(Enemy):
 
     def __init__(self, center: Coordinate, radius: float):
-        """Initializes a new black hole object anchored at the given point
-
-        :param center: the location of the black hole
-        :param radius: radius of the post
-        """
         self.center = center
         self.radius = radius
-        self.depth_interval = radius / 2
+        self.n_points = round(radius * 5)
 
-    def set_vertices_depth_interval(self, interval):
-        self.depth_interval = interval
+    def set_number_of_vertices(self, n):
+        self.n_points = round(n)
+
+    def get_coordinates(self, theta):
+        rad = self.radius / math.cos(math.pi / self.n_points)
+        return geo.Point(self.center.x + rad * math.cos(theta), self.center.y + rad * math.sin(theta))
 
     # returns list of vertices for Graph
     # each vertex is type coordinate
     def get_vertices(self):
-        pass
+        thetas = [math.tau * i / self.n_points for i in range(0, self.n_points)]
+        tmp = [self.get_coordinates(theta) for theta in thetas]
+        return [Coordinate(sp.x, sp.y) for sp in tmp]
 
-    # returns list of (edge1, edge2)
-    # each couple is an edge in Graph
-    def get_edges(self):
-        pass
-
-    # returns true if (start_coordinate -> target_coordinate) is a valid path
-    # else, returns false
-    def is_path_valid(self, start_coordinate, target_coordinate):
-        pass
