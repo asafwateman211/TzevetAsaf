@@ -12,6 +12,11 @@ class Enemy(ABC):
     def get_edges(self):
         pass
 
+    # returns true coordinate is in enemy territory
+    # else, returns false
+    def is_in_enemy(self, coordinate):
+        pass
+
     # returns true if (start_coordinate -> target_coordinate) is a valid path
     # else, returns false
     def is_path_valid(self, start_coordinate, target_coordinate):
