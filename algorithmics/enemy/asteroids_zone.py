@@ -10,16 +10,12 @@ import shapely.geometry as geo
 class AsteroidsZone(Enemy):
     def __init__(self, boundary: List[Coordinate]):
         self.boundary = [Point(p.x, p.y) for p in boundary]     # List[Point]
-        self.polygon = geo.Polygon(self.boundary)
 
     def get_vertices(self):
         return self.boundary
 
     def get_edges(self):
         return geo.LineString(self.boundary)
-
-    def get_polygon(self):
-        return self.polygon
 
     # Checks weather the point is inside the enemy
     def is_in_enemy(self, point):
